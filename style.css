@@ -70,3 +70,52 @@ nav ul li a {
     border-radius: 5px;
     margin-top: 10px;
 }
+.section-title {
+    text-align: center;
+    margin-top: 50px;
+    color: #2c3e50;
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tag {
+    background: #e74c3c;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.project-tech {
+    font-weight: bold;
+    color: #3498db;
+    font-size: 0.9rem;
+    margin-top: -10px;
+}
+
+.project-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.btn-small {
+    display: inline-block;
+    padding: 8px 15px;
+    border: 1px solid #3498db;
+    color: #3498db;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.btn-small:hover {
+    background: #3498db;
+    color: #fff;
+}
