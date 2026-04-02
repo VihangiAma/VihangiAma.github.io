@@ -1,77 +1,451 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vihangi Ama | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Alex Chen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a18;
+    --ink-mid: #6b6b66;
+    --ink-light: #b0afa9;
+    --paper: #f5f4f0;
+    --paper-warm: #eeecea;
+    --accent: #2a5cff;
+    --accent-soft: rgba(42, 92, 255, 0.08);
+    --rule: rgba(26,26,24,0.1);
+    --serif: 'DM Serif Display', Georgia, serif;
+    --mono: 'DM Mono', 'Courier New', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--mono);
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Layout ── */
+  .container { max-width: 740px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ── Nav ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.25rem 0;
+    background: rgba(245,244,240,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  nav .container { display: flex; justify-content: space-between; align-items: center; }
+  .nav-logo { font-family: var(--serif); font-size: 1.05rem; color: var(--ink); text-decoration: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--ink-mid); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 10rem 0 6rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-label {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-light); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-label::before {
+    content: ''; display: block; width: 24px; height: 1px; background: var(--ink-light);
+  }
+  .hero h1 {
+    font-family: var(--serif); font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-weight: 400; line-height: 1.15; letter-spacing: -0.01em;
+    color: var(--ink); margin-bottom: 1.75rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--ink-mid); }
+  .hero-desc {
+    max-width: 520px; color: var(--ink-mid); font-size: 14px;
+    line-height: 1.8; margin-bottom: 2.5rem;
+  }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.65rem 1.4rem; border-radius: 2px;
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
+    text-transform: uppercase; text-decoration: none; cursor: pointer;
+    transition: all 0.2s; border: 1px solid;
+  }
+  .btn-primary {
+    background: var(--ink); color: var(--paper); border-color: var(--ink);
+  }
+  .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+  .btn-ghost {
+    background: transparent; color: var(--ink); border-color: var(--rule);
+  }
+  .btn-ghost:hover { border-color: var(--ink); }
+
+  /* ── Section headers ── */
+  .section { padding: 5rem 0; border-bottom: 1px solid var(--rule); }
+  .section:last-child { border-bottom: none; }
+  .section-header {
+    display: flex; align-items: baseline; gap: 1rem; margin-bottom: 3rem;
+  }
+  .section-num {
+    font-size: 11px; letter-spacing: 0.08em; color: var(--ink-light);
+  }
+  .section-title {
+    font-family: var(--serif); font-size: 1.8rem; font-weight: 400; color: var(--ink);
+  }
+
+  /* ── About ── */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .about-text p { color: var(--ink-mid); margin-bottom: 1rem; line-height: 1.9; }
+  .about-facts { }
+  .fact-item {
+    padding: 0.9rem 0; border-bottom: 1px solid var(--rule);
+    display: flex; gap: 1rem;
+  }
+  .fact-item:first-child { border-top: 1px solid var(--rule); }
+  .fact-label { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-light); min-width: 80px; padding-top: 2px; }
+  .fact-value { color: var(--ink); font-size: 13px; }
+
+  /* ── Skills ── */
+  .skills-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag {
+    padding: 0.35rem 0.85rem; background: var(--paper-warm);
+    border: 1px solid var(--rule); border-radius: 2px;
+    font-size: 12px; color: var(--ink-mid); letter-spacing: 0.02em;
+    transition: all 0.15s;
+  }
+  .skill-tag:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .skill-tag.highlight { background: var(--accent-soft); border-color: rgba(42,92,255,0.2); color: var(--accent); }
+
+  /* ── Projects ── */
+  .projects-list { display: flex; flex-direction: column; gap: 0; }
+  .project-item {
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--rule);
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 1rem; align-items: start;
+    transition: background 0.15s;
+    cursor: default;
+  }
+  .project-item:first-child { border-top: 1px solid var(--rule); }
+  .project-item:hover .project-title { color: var(--accent); }
+  .project-meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+  .project-title {
+    font-family: var(--serif); font-size: 1.15rem; font-weight: 400;
+    color: var(--ink); transition: color 0.2s; margin-right: 0.5rem;
+  }
+  .project-tag {
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-light); background: var(--paper-warm);
+    border: 1px solid var(--rule); padding: 0.2rem 0.6rem; border-radius: 2px;
+  }
+  .project-desc { font-size: 13px; color: var(--ink-mid); line-height: 1.75; max-width: 500px; }
+  .project-stack { display: flex; gap: 0.4rem; margin-top: 0.75rem; flex-wrap: wrap; }
+  .project-stack span {
+    font-size: 11px; color: var(--ink-light); font-family: var(--mono);
+  }
+  .project-stack span::before { content: '·'; margin-right: 0.4rem; }
+  .project-stack span:first-child::before { display: none; }
+  .project-link {
+    font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--ink-light); text-decoration: none;
+    display: flex; align-items: center; gap: 0.3rem;
+    padding: 0.4rem 0; transition: color 0.2s; white-space: nowrap;
+  }
+  .project-link:hover { color: var(--accent); }
+  .project-link svg { width: 12px; height: 12px; }
+
+  /* ── Contact ── */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .contact-text p { color: var(--ink-mid); line-height: 1.9; margin-bottom: 1.25rem; }
+  .contact-email {
+    font-family: var(--serif); font-size: 1.4rem; color: var(--ink);
+    text-decoration: none; display: inline-block; border-bottom: 1px solid var(--ink);
+    padding-bottom: 2px; transition: color 0.2s, border-color 0.2s;
+  }
+  .contact-email:hover { color: var(--accent); border-color: var(--accent); }
+  .social-links { display: flex; flex-direction: column; gap: 0; }
+  .social-item {
+    padding: 0.85rem 0; border-bottom: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .social-item:first-child { border-top: 1px solid var(--rule); }
+  .social-name { font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-mid); }
+  .social-link {
+    font-size: 12px; color: var(--ink-light); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .social-link:hover { color: var(--accent); }
+
+  /* ── Footer ── */
+  footer {
+    padding: 2rem 0; text-align: center;
+    font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--ink-light);
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-label { animation: fadeUp 0.5s ease both; }
+  .hero h1 { animation: fadeUp 0.5s 0.1s ease both; }
+  .hero-desc { animation: fadeUp 0.5s 0.2s ease both; }
+  .hero-cta { animation: fadeUp 0.5s 0.3s ease both; }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .hero { padding: 7rem 0 4rem; }
+    .project-item { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">Vihangi Ama</div>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <section id="hero">
-        <h1>Hi, I'm Vihangi</h1>
-        <p>BICT Undergraduate | Aspiring Business Analyst & Project Manager</p>
-        <a href="#projects" class="btn">View My Work</a>
-    </section>
+<nav>
+  <div class="container">
+    <a href="#" class="nav-logo">Alex Chen</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
 
-   <section id="projects">
-    <h2 class="section-title">Academic Projects</h2>
-
-    <div class="project-card">
-        <div class="project-header">
-            <h3>Motor Workshop Management System</h3>
-            <span class="tag">Team Lead</span>
-        </div>
-        <p class="project-tech">React.js | Node.js | MySQL</p>
-        <p>Automated inventory and invoicing for a local workshop, reducing manual data entry by 40%.</p>
-        <div class="project-images">
-            <img src="assets/images/workshop-ui.png" alt="System UI">
-            <img src="assets/images/workshop-diagram.png" alt="ER Diagram">
-        </div>
-        <a href="#" class="btn-small">View Case Study</a>
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <p class="hero-label">Software Engineer</p>
+    <h1>Building things<br>that work <em>beautifully.</em></h1>
+    <p class="hero-desc">
+      I'm a full-stack engineer focused on developer tooling, distributed systems, 
+      and interfaces that get out of the way. Currently open to new opportunities.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View my work →</a>
+      <a href="#contact" class="btn btn-ghost">Get in touch</a>
     </div>
-
-    <div class="project-card">
-        <div class="project-header">
-            <h3>Multiuser Chat Application</h3>
-            <span class="tag">Java RMI</span>
-        </div>
-        <p class="project-tech">Java | Multi-threading | MySQL</p>
-        <p>Developed a real-time communication system with sub-second latency and automated session logging.</p>
-        <div class="project-images">
-            <img src="assets/images/chat-app-ss.png" alt="Chat Interface">
-        </div>
-        <a href="#" class="btn-small">GitHub Repo</a>
-    </div>
-
-    <div class="project-card">
-        <div class="project-header">
-            <h3>Student Management System</h3>
-            <span class="tag">JavaFX</span>
-        </div>
-        <p class="project-tech">JavaFX | OOP | UML Design</p>
-        <p>Built a standalone system for 100+ student profiles, optimizing data retrieval rates by 20%.</p>
-        <div class="project-images">
-            <img src="assets/images/student-mgmt-uml.png" alt="UML Architecture">
-        </div>
-        <a href="#" class="btn-small">View Design Docs</a>
-    </div>
+  </div>
 </section>
 
-    <footer>
-        <p>&copy; 2026 Vihangi Ama. All Rights Reserved.</p>
-    </footer>
+<!-- About -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">About</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I've been writing software for 8 years, with the last four focused 
+          on building products from zero to production. I care deeply about 
+          code quality, system design, and the humans who eventually have 
+          to maintain it.
+        </p>
+        <p>
+          When I'm not coding I'm probably reading systems papers, experimenting 
+          with generative art, or making espresso with unreasonable precision.
+        </p>
+        <div class="skills-grid" style="margin-top: 1.5rem;">
+          <span class="skill-tag highlight">TypeScript</span>
+          <span class="skill-tag highlight">Go</span>
+          <span class="skill-tag highlight">React</span>
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">Redis</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">Kubernetes</span>
+          <span class="skill-tag">AWS</span>
+          <span class="skill-tag">GraphQL</span>
+          <span class="skill-tag">Rust</span>
+        </div>
+      </div>
+      <div class="about-facts">
+        <div class="fact-item">
+          <span class="fact-label">Based</span>
+          <span class="fact-value">San Francisco, CA</span>
+        </div>
+        <div class="fact-item">
+          <span class="fact-label">Experience</span>
+          <span class="fact-value">8 years</span>
+        </div>
+        <div class="fact-item">
+          <span class="fact-label">Focus</span>
+          <span class="fact-value">Full-stack, Systems</span>
+        </div>
+        <div class="fact-item">
+          <span class="fact-label">Education</span>
+          <span class="fact-value">B.S. Computer Science, MIT</span>
+        </div>
+        <div class="fact-item">
+          <span class="fact-label">Status</span>
+          <span class="fact-value" style="color: #2a9d2a;">● Open to work</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section class="section" id="projects">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Selected work</h2>
+    </div>
+    <div class="projects-list">
+
+      <div class="project-item">
+        <div>
+          <div class="project-meta">
+            <span class="project-title">Relay</span>
+            <span class="project-tag">Open source</span>
+          </div>
+          <p class="project-desc">
+            A lightweight task queue for Go services. Handles retries, dead-letter queues, 
+            and priority scheduling with a sub-1ms dispatch overhead.
+          </p>
+          <div class="project-stack">
+            <span>Go</span><span>Redis</span><span>Protobuf</span>
+          </div>
+        </div>
+        <a href="#" class="project-link">
+          View
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M2 10L10 2M4 2h6v6"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="project-item">
+        <div>
+          <div class="project-meta">
+            <span class="project-title">Figment</span>
+            <span class="project-tag">Product</span>
+          </div>
+          <p class="project-desc">
+            A collaborative code review tool with inline AI suggestions. 
+            Grew from 0 to 4,200 active teams in 18 months.
+          </p>
+          <div class="project-stack">
+            <span>TypeScript</span><span>React</span><span>PostgreSQL</span><span>AWS Lambda</span>
+          </div>
+        </div>
+        <a href="#" class="project-link">
+          View
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M2 10L10 2M4 2h6v6"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="project-item">
+        <div>
+          <div class="project-meta">
+            <span class="project-title">Datastream CLI</span>
+            <span class="project-tag">Open source</span>
+          </div>
+          <p class="project-desc">
+            Command-line tool for inspecting and transforming streaming data pipelines. 
+            Supports Kafka, Kinesis, and Pub/Sub with a unified query language.
+          </p>
+          <div class="project-stack">
+            <span>Rust</span><span>Kafka</span><span>AWS Kinesis</span>
+          </div>
+        </div>
+        <a href="#" class="project-link">
+          View
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M2 10L10 2M4 2h6v6"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="project-item">
+        <div>
+          <div class="project-meta">
+            <span class="project-title">Nomad Dashboard</span>
+            <span class="project-tag">Freelance</span>
+          </div>
+          <p class="project-desc">
+            Real-time infrastructure observability dashboard for a logistics startup. 
+            Monitors 300+ microservices with custom alerting and anomaly detection.
+          </p>
+          <div class="project-stack">
+            <span>React</span><span>Go</span><span>InfluxDB</span><span>Grafana</span>
+          </div>
+        </div>
+        <a href="#" class="project-link">
+          View
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M2 10L10 2M4 2h6v6"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Get in touch</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-text">
+        <p>
+          I'm currently available for full-time roles and interesting 
+          contract projects. If you're building something ambitious, 
+          I'd love to hear about it.
+        </p>
+        <a href="mailto:alex@example.com" class="contact-email">alex@example.com</a>
+      </div>
+      <div class="social-links">
+        <div class="social-item">
+          <span class="social-name">GitHub</span>
+          <a href="#" class="social-link">@alexchen</a>
+        </div>
+        <div class="social-item">
+          <span class="social-name">LinkedIn</span>
+          <a href="#" class="social-link">/in/alexchen</a>
+        </div>
+        <div class="social-item">
+          <span class="social-name">Twitter</span>
+          <a href="#" class="social-link">@alexchen</a>
+        </div>
+        <div class="social-item">
+          <span class="social-name">Resume</span>
+          <a href="#" class="social-link">Download PDF ↓</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Alex Chen — Designed & built by hand</p>
+  </div>
+</footer>
+
 </body>
 </html>
